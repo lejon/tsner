@@ -1,4 +1,49 @@
-#' tsne
+#' tsne implements t-Distributed Stochastic Neighbor Embedding (t-SNE)
+#' 
+#' @param X generic; Data Frame or matrix
+#' @param dims	integer; Output dimensionality (default: 2)
+#' @param initial_dims integer; the number of dimensions that should be retained in the initial PCA step (default: -1 (all))
+#' @param perplexity numeric; Perplexity parameter
+#' @param theta	numeric; Speed/accuracy trade-off (increase for less accuracy, default: 0.5)
+#' @param pca	logical; Whether an initial PCA step should be performed (default: FALSE)
+#' @param max_iter	integer; Number of iterations (default: 1000)
+#' @param verbose logical; Whether progress updates should be printed (default: FALSE)
+#' 
+#' @export
+#' @examples 
+#' \dontrun{
+#' tsnedf <- tsne(X, dims, initial_dims, perplexity, max_iter, pca, theta, verbose)
+#' }
+tsne <- function (X, ...) {
+  UseMethod("tsne", X)
+}
+
+#' tsne.data.frame implements t-Distributed Stochastic Neighbor Embedding (t-SNE) 
+#' for data frame inputs
+#' 
+#' @param X data.frame; Data Frame with only columns with numeric data
+#' @param dims	integer; Output dimensionality (default: 2)
+#' @param initial_dims integer; the number of dimensions that should be retained in the initial PCA step (default: -1 (all))
+#' @param perplexity numeric; Perplexity parameter
+#' @param theta	numeric; Speed/accuracy trade-off (increase for less accuracy, default: 0.5)
+#' @param pca	logical; Whether an initial PCA step should be performed (default: FALSE)
+#' @param max_iter	integer; Number of iterations (default: 1000)
+#' @param verbose logical; Whether progress updates should be printed (default: FALSE)
+#'
+#' @export
+#' @examples
+#' \dontrun{
+#' tsnedf <- tsne(X, dims, initial_dims, perplexity, max_iter, pca, theta, verbose)
+#' }
+tsne.data.frame <- function(X, ...) {
+  Xm <- as.matrix(X)
+  storage.mode(Xm) <- "double"
+  res <- tsne.matrix(Xm, ...)
+  as.data.frame(res)
+}
+
+#' tsne.matrix implements t-Distributed Stochastic Neighbor Embedding (t-SNE) 
+#' for matrix inputs
 #' 
 #' @param X matrix; Data matrix
 #' @param dims	integer; Output dimensionality (default: 2)
@@ -11,7 +56,11 @@
 #' 
 #' @importFrom rJava .jnew .jcall
 #' @export
-tsne <- function(X, dims=2, initial_dims=-1, perplexity=30, max_iter=100,
+#' @examples 
+#' \dontrun{
+#' tsnedf <- tsne(X, dims, initial_dims, perplexity, max_iter, pca, theta, verbose)
+#' }
+tsne.matrix <- function(X, dims=2, initial_dims=-1, perplexity=30, max_iter=100,
                    pca=FALSE, theta=0.6, verbose=FALSE) {
   print_error <- verbose
   # Using Boolean instead of boolean does not work
@@ -54,5 +103,4 @@ tsne <- function(X, dims=2, initial_dims=-1, perplexity=30, max_iter=100,
   } else {
     stop(.jcall(cr,"S","getExplanation"))
   }
-
 }
