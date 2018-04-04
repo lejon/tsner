@@ -16,3 +16,5 @@ verbose=FALSE
 
 system.time(ds <- tsne(X, dims, initial_dims, perplexity, max_iter,
                         pca, theta, verbose))
+
+plot(ds)

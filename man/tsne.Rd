@@ -18,9 +18,9 @@ tsne(X, dims = 2, initial_dims = -1, perplexity = 30, max_iter = 100,
 
 \item{max_iter}{integer; Number of iterations (default: 1000)}
 
-\item{pca}{logical; Whether an initial PCA step should be performed (default: TRUE)}
+\item{pca}{logical; Whether an initial PCA step should be performed (default: FALSE)}
 
-\item{theta}{numeric; Speed/accuracy trade-off (increase for less accuracy), set to 0.0 for exact TSNE (default: 0.5)}
+\item{theta}{numeric; Speed/accuracy trade-off (increase for less accuracy, default: 0.5)}
 
 \item{verbose}{logical; Whether progress updates should be printed (default: FALSE)}
 }

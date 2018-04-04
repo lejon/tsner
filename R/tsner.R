@@ -4,8 +4,8 @@
 #' @param dims	integer; Output dimensionality (default: 2)
 #' @param initial_dims integer; the number of dimensions that should be retained in the initial PCA step (default: -1 (all))
 #' @param perplexity numeric; Perplexity parameter
-#' @param theta	numeric; Speed/accuracy trade-off (increase for less accuracy), set to 0.0 for exact TSNE (default: 0.5)
-#' @param pca	logical; Whether an initial PCA step should be performed (default: TRUE)
+#' @param theta	numeric; Speed/accuracy trade-off (increase for less accuracy, default: 0.5)
+#' @param pca	logical; Whether an initial PCA step should be performed (default: FALSE)
 #' @param max_iter	integer; Number of iterations (default: 1000)
 #' @param verbose logical; Whether progress updates should be printed (default: FALSE)
 #' 
@@ -43,8 +43,16 @@ tsne <- function(X, dims=2, initial_dims=-1, perplexity=30, max_iter=100,
   # .jcall(conf,"V","setSilent",silent)
   # .jcall(conf,"V","setPrintError",print_error)
   
-  tsne <- .jnew("com.jujutsu.tsne.barneshut.ParallelBHTsne")
   cfg <- .jcast(conf,"com.jujutsu.tsne.TSneConfiguration")
-  ds <- .jcall(tsne,"[[D","tsne",cfg,evalArray = TRUE,simplify = TRUE)
-  return(ds)
+  
+  util <- .jnew("com.jujutsu.utils.TSneUtils")
+  cr <- .jcall(util,"Lcom/jujutsu/tsne/CheckResult;","check",cfg)
+  if(.jcall(cr,"Z","check")) {
+    tsne <- .jnew("com.jujutsu.tsne.barneshut.ParallelBHTsne")
+    ds <- .jcall(tsne,"[[D","tsne",cfg,evalArray = TRUE,simplify = TRUE)
+    return(ds)
+  } else {
+    stop(.jcall(cr,"S","getExplanation"))
+  }
+
 }
