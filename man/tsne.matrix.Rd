@@ -5,8 +5,16 @@
 \title{tsne.matrix implements t-Distributed Stochastic Neighbor Embedding (t-SNE) 
 for matrix inputs}
 \usage{
-\method{tsne}{matrix}(X, dims = 2, initial_dims = -1, perplexity = 30,
-  max_iter = 100, pca = FALSE, theta = 0.6, verbose = FALSE)
+\method{tsne}{matrix}(
+  X,
+  dims = 2,
+  initial_dims = -1,
+  perplexity = 30,
+  max_iter = 100,
+  pca = FALSE,
+  theta = 0.6,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{X}{matrix; Data matrix}
@@ -34,4 +42,3 @@ for matrix inputs
 tsnedf <- tsne(X, dims, initial_dims, perplexity, max_iter, pca, theta, verbose)
 }
 }
-

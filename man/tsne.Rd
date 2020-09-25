@@ -31,4 +31,3 @@ tsne implements t-Distributed Stochastic Neighbor Embedding (t-SNE)
 tsnedf <- tsne(X, dims, initial_dims, perplexity, max_iter, pca, theta, verbose)
 }
 }
-

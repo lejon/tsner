@@ -63,6 +63,11 @@ tsne.data.frame <- function(X, ...) {
 tsne.matrix <- function(X, dims=2, initial_dims=-1, perplexity=30, max_iter=100,
                    pca=FALSE, theta=0.6, verbose=FALSE) {
   print_error <- verbose
+  
+  nr_na_nan <- sum(apply(X,2,function(x) (is.na(x) | is.nan(x))))
+  stopifnot(nr_na_nan == 0)
+  
+  storage.mode(X) <- "double"
   # Using Boolean instead of boolean does not work
   #up <- .jnew("java.lang.Boolean",use_pca)
   #pe <- .jnew("java.lang.Boolean",print_error)
