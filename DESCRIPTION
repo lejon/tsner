@@ -1,6 +1,6 @@
 Type: Package
 Package: tsner
-Version: 0.0.1
+Version: 0.0.3
 Date: 2018-03-26
 Title: R Wrapper for Java T-SNE
 Author: Leif Jonsson
